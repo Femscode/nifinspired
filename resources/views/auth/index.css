@@ -1,0 +1,1117 @@
+/* THIS IS THE SIGNUP/REGISTER/SETUP ACCOUNT AND Dashboard Styling and Media queries */
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+
+}
+
+/* this */
+.heading{
+    /* border:  1px solid black; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:20px 50px;
+}
+
+.logo1{
+    height: 50px;
+
+}
+
+.sign-in{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: center;
+}
+
+.register{
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.inf{
+    text-align: center;
+    margin: 30px;
+    width: 450px;
+}
+.inf h1{
+    font-weight: 700px;
+    font-size: 36px;
+
+}
+.inf p{
+    margin: 20px;
+    font-size: 18px;
+    color: #939393;
+}
+
+.entries{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+}
+
+.entries input{
+    padding: 15px;
+    margin: 15px;
+    width: 350px;
+}
+
+.entries input[type =text], .entries input[type = email]{
+    outline: none;
+    border: 1px solid #004AAD45;
+    border-radius: 10px;
+    background-color: #F5FAFF;
+    font-size: 16px;
+    /* color: #004aad; */
+}
+::placeholder{
+    color: #004aad  ;
+}
+.reg-btn{
+    width: 350px;
+    padding: 15px;
+    background-color: #004aad;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    margin: 50px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+
+/* __________________SET UP YOUR ACCOUNT STYLING_________________________ */
+
+.set-up{
+    /* border: 1px solid ; */
+    box-shadow: 0px 12px 50px 0px #EAEEFD26, 
+                7px 0px 16px 0px #C3C2C214,
+                -12px 0px 22px 0px #C3C2C221;    
+ 
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin: 50px;
+
+}
+.sp-entries{
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 30px;
+}
+.pass-case{
+border: 1px solid black;
+padding: 15px;
+width: 350px;
+border-radius: 10px;
+margin: 15px;
+border: 1px solid #004AAD45;
+background-color: #F5FAFF;
+display: flex;
+align-items: center;
+
+
+}
+
+.pass-case input[type = password]{
+ border: none;
+ outline: none;
+ width: 300px;
+ font-size: 15px;
+ background-color: #F5FAFF;
+ /* color: #004aad; */
+
+}
+
+.pass-case input[type = text]{
+    border: none;
+    outline: none;
+    width: 300px;
+    font-size: 15px;
+    background-color: #F5FAFF;
+    /* color: #004aad; */
+   }
+
+   .c-openp{
+        display: flex;
+   }
+
+   .eye-clse{
+    display: none;
+   }
+   
+    .openup2{
+    display: none;
+    transition: 2s;
+}
+
+ .closeup2{
+    display: block;
+    transition: 2s;
+}
+   
+
+
+/* ____________________________ DASHBOARD LOGIN PAGE________________ */
+    .mainspace{
+    /* background-image: url(./w-img/Rectangle\ 1125.png); */
+    height: 100vh;
+    background-size: cover;
+    background-position: left;
+    display: flex;
+    }
+
+    .banner1{
+    width: 100%;
+    background-image: url(./w-img/Rectangle\ 1125.png);
+    background-size: cover;
+    background-position: right;
+
+    }
+    .logo-lg{
+        /* border: 1px solid black; */
+    margin: 30px;
+    height: 50px;
+    }
+    .poss{
+    width: 100%;
+
+    }
+    .login-1{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+
+    }
+
+    .log_case{
+    /* border: 1px solid black; */
+    }
+
+    .log-ctnt{
+    /* border: 1px solid black; */
+    margin: 50px 15px;
+    }
+
+    .log-ctnt h1{
+    color: #022554;
+    font-weight: bolder;
+    font-size: 24px;
+    }
+
+    .log-ctnt p{
+    color: #939393;
+    }
+
+    .lg-form{
+    margin: 50px 0px;
+    padding: 20px 0px;
+    /* border: 1px solid black; */
+    }
+
+    .mail-log{
+    /* border: 1px solid black; */
+    padding: 15px;
+    width: 400px;
+    border-radius: 10px;
+    margin: 15px;
+    border: 1px solid #004AAD45;
+    background-color: #F5FAFF;
+    display: flex;
+    align-items: center;
+    }
+    .pass-log{
+    /* border: 1px solid black; */
+    padding: 15px;
+    width: 400px;
+    border-radius: 10px;
+    margin: 15px;
+    border: 1px solid #004AAD45;
+    background-color: #F5FAFF;
+    display: flex;
+    align-items: center;
+    }
+
+    .openp{
+        display: flex;
+    }
+
+    .eye-icon{
+
+    }
+
+    .eye-close{
+    display: none;
+    }
+
+    .openup{
+        display: none;
+        transition: 2s;
+    }
+
+    .closeup{
+        display: block;
+        transition: 2s;
+    }
+
+    .mail-log input[type= email]{
+    border: none;
+    outline: none;
+    width: 350px;
+    font-size: 15px;
+    background-color: #F5FAFF;
+    /* color: #004aad; */
+
+    }
+    .pass-log input[type= password]{
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    background-color: #F5FAFF;
+    }
+
+    .pass-log input[type= text]{
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 15px;
+        background-color: #F5FAFF;
+        }
+    .forget{
+    /* border: 1px solid black; */
+    margin: 15px;
+    text-align: right;
+    }
+    .forget a{
+    color: #00C31F;
+    text-decoration: none;
+    }
+
+    .login-btn{
+    width: 400px;
+    padding: 15px;
+    background-color: #004aad;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    /* margin: 50px; */
+    border-radius: 10px; 
+    margin: 20px 20px;
+    cursor: pointer;
+    }
+
+
+
+
+/*_____________________THE DASHBOARD ________________________*/
+
+.dsh{
+    /* border:1px solid black; */
+    padding: 30px 80px;
+    }
+    
+.dsh nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+/* border:1px solid red; */
+
+    
+}
+
+.cs-logo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+width:100%;
+/* border: 1px solid black; */
+}
+
+.menu{
+  /* border:1px solid black; */
+  display: none;
+}
+.bar1, .bar2, .bar3{
+    height:3px;
+    width:30px;
+    margin:5px 0px;
+    background-color:#004aad;
+    border-radius: 10px;
+    transition: 1.5s;
+    
+}
+/* the transition and the js functionto display the menu */
+.right{
+    position:relative;
+    top:10px;
+    transform:rotate(405deg);
+    
+  }
+  
+  .trnleft{
+    transform:rotate(-225deg);
+    position:relative;
+    top:-6px;
+  }
+  
+  .move{
+    transform: translateX(-50px);
+  animation:anims 1s;
+  opacity: 0;
+  }
+
+  @keyframes anims {
+    0%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity:0;
+    }
+  }
+
+
+  .nvbox{
+    /* border: 1px solid black; */
+    width: 50%;
+  }
+
+.hd-nav {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    width:100%;
+    /* border: 1px solid black; */
+    /* padding: 20px; */
+/*   margin:0px 20px; */
+}
+
+.hd-nav  li{
+list-style:none;
+/* margin:15px 0;  */
+}
+
+.hd-nav li a{
+text-decoration:none;
+
+}
+
+.hd-nav .dg-a a{
+    color: #004aad;
+    font-weight: bold;
+}
+
+.hd-nav .dg-b a{
+    color: #C3C2C2;
+    font-weight: bold;
+}
+
+
+.hd-nav  .dg-c a{
+    color: white;
+    font-weight: bold;
+    background-color: #004aad;
+    padding: 10px 15px;
+    border-radius: 5px;
+    
+}
+    
+.disp01{
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0px 70px;
+
+}
+
+.disp01 .user_name{
+    /* border: 1px solid black; */
+    margin: 40px 20px;
+    font-size:28px;
+    font-weight: 900px;
+}
+
+.disp01 .stats{
+    display: flex;
+    justify-content: space-between;
+   
+
+}
+
+/* this is the main case */
+.same{
+    /* border: 1px solid black; */
+    margin: 0px 20px;
+    width: 100%;
+    background-color: #EAEEFD;
+    /* border-left:5px solid #004aad; */
+    border-radius: 0px 10px 10px 0px;
+    display: flex;
+    
+
+}
+/* inden is the sidebar colored 004aad */
+.inden{
+    width: 7px;
+    background-color: #004aad;
+    border-radius: 15px;
+}
+
+.sd-txt{
+    padding: 25px;
+    width: 90%;
+    text-align: center;
+    /* border: 1px solid black; */
+    color: #004aad;
+
+}
+
+.sd-txt h1{
+    margin: 10px;
+    font-size: 36px;
+}
+
+/* table section */
+.mjr01{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 50px;
+}
+
+.table-disp{
+    /* border: 1px solid black; */
+    width: 100%;
+    margin:0px  40px;
+}
+
+.tb-head{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #004aad;
+    border-radius: 10px;
+
+}
+.tb-head h4{
+    /* border: 1px solid black; */
+    padding: 15px 50px;
+    color: white;
+
+}
+
+.tb-body{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px 0px;
+    background-color: #FBFCFF;
+}
+
+.tb-body p{
+    padding: 15px 50px;
+}
+
+.tb-body:hover{
+    background-color: #EAEEFD;
+}
+
+/* the referal lin sections and some extra info */
+
+.r-lnk{
+    /* border: 1px solid black; */
+    width: 100%;
+    /* padding: 0px 20px; */
+    margin:0px 30px;
+    
+}
+
+.lnk{
+    /* border: 1px solid black; */
+    box-shadow: 0px 12px 22px rgba(0, 0, 0, 0.07), 
+                0px -12px 22px rgba(0, 0, 0, 0.07) ;
+    border-radius: 10px;
+    padding: 10px;
+    display:flex ;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cp-in{
+    /* border: 1px solid black; */
+    text-align: center;
+}
+.cp-in p{
+    font-size: 12px;
+    margin: 10px 0px;
+    font-weight: lighter;
+    color: #ABAAAA;
+
+}
+
+.reff{
+    display: flex;
+    margin: 20px 0px;
+    color: #00C31F;
+    
+}
+.reff p{
+    border: 1px solid #E2E9FF;
+
+    padding: 10px 25px ;
+
+}
+
+.reff button{
+    background-color: #004aad;
+    color: white;
+    border: none;
+    border-radius: 0px 10px 10px 0px;
+    padding: 15px;
+    font-style: italic;
+    margin: 0px;
+}
+
+.in-lnk{
+    display: flex;
+    justify-content: space-between;
+    margin: 25px 0px;
+}
+
+.d-graphs{
+    display: flex;
+}
+.in-sec01{
+    /* border: 1px solid black; */
+    margin-right: 10px;
+    box-shadow: 0px 12px 22px rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.in-sec01 p{
+    font-size: 12px;
+    text-align: center;
+    color: #969696;
+    /* font-weight: bold; */
+    margin: 10px 0px;
+}
+
+.illus{
+    height: 100px;
+    margin: 15px 10px ;
+}
+
+.gains p{
+    /* border: 1px solid black; */
+    font-size: 11px;
+    font-weight: bold;
+    padding:10px;
+    border-radius: 10px;
+    margin: 5px 0px;
+    display: flex;
+    align-items: center;
+    color:#004aad ;
+    background-color: #F3F6FE;
+}
+.gains p img{
+    height: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* media Query */
+
+@media screen and (max-width:500px) {
+    .heading{
+        /* border:  1px solid black; */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin:20px;
+    }
+
+    .inf{
+        text-align: center;
+        /* border: 1px solid black; */
+        width: 100%;
+        margin-top: 50px;
+        width: 100%;
+    }
+
+    .inf h1{
+        font-weight: 700px;
+        font-size: 36px;
+    
+    }
+    .inf p{
+        /* margin: 20px; */
+        color: #939393;
+    }
+
+    .entries{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 20px;
+        /* border: 1px solid black; */
+        width: 100%;
+        
+    }
+    
+    .entries input{
+        padding: 15px;
+        margin:15px 5px;
+        width: 100%;
+    }
+    
+    .entries input[type =text], .entries input[type = email]{
+        outline: none;
+        border: 1px solid #004AAD45;
+        border-radius: 10px;
+        background-color: #F5FAFF;
+    }
+    .reg-btn{
+        width: 100%;
+        padding: 15px;
+        background-color: #004aad;
+        border: none;
+        outline: none;
+        color: white;
+        font-weight: bold;
+        margin: 50px 0px;
+        border-radius: 15px;
+    }
+
+    /* Media query for the setup page */
+    .set-up{
+        /* border: 1px solid black; */
+        width: 100%;
+        margin: 50px 10px;
+
+    }
+
+    .sp-entries{
+        width: 100%;
+        padding: 20px;
+    }
+
+    .pass-case{
+        width: 100%;
+
+    }
+
+    .pass-case input[type = password]{
+        width: 100%;
+    }
+
+   
+}
+    /* dashboard MEDIA QUERY FOR SCREEN SIZES OVER 500 and below*/
+@media screen and (max-width:699px) {
+     /* dashboard media query */
+
+     .dsh{
+        padding:20px 0px;
+        /* border: 1px solid black; */
+        
+    }
+    .dsh nav{
+        margin: 0px;
+        flex-direction: column;
+        position: relative;
+        /* border: 1px solid black; */
+        /* align-items: center; */
+
+    }
+    .cs-logo{
+        padding:0px 10px;
+    }
+    
+    
+    .menu{
+        display: block;
+    }
+
+    .hd-nav{
+        display:none ;
+        /* border: 1px solid black; */
+    
+    }
+
+    /* * ________________the Hamburger Design */ 
+    .nvbox{
+        position: relative;
+        width: 100%;
+        height: 50px;
+        /* border: 1px solid black; */
+        
+    }
+
+    .show{
+    display: flex;
+    /* border: 1px solid black; */
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 20px;
+    animation: showed 2s ease-in-out;
+    border-bottom: 1px solid #004aad;
+    
+
+    }
+    @keyframes showed {
+        0%{
+            opacity: 0;
+            position: absolute;
+            top: 0;
+        }
+        50%{
+            opacity: 0px;
+        }
+
+        100%{
+            opacity: 1;
+            position: absolute;
+            top: 0px;
+        }
+    }
+
+
+    .disp01{
+        padding:0px;
+        /* margin: 15px; */
+        margin: 10px;
+    }
+    .disp01 .user_name{
+        font-size: 24px;
+        margin: 20px 0px;
+
+    }
+
+    .disp01 .stats{
+        display: flex;
+        flex-direction: column;
+        margin:0px 0px;
+        
+    }
+    .same{
+        display: flex;
+        margin:20px 0px;
+        text-align: center;
+    }
+    .sd-txt{
+        /* border: 1px solid black; */
+        padding: 25px   0px;
+    }
+/* continue */
+
+    .mjr01{
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+
+    .table-disp{
+        margin: 0px;
+        /* border: 1px solid black; */
+        overflow-x: scroll;
+        margin: 30px 0px;
+    }
+
+    .tb-head{
+        border: 1px solid black;
+        width: 100%;
+        /* flex-direction: column; */
+    }
+
+    .tb-head h4, .tb-body p{
+        padding: 20px;
+    }
+
+    .r-lnk{
+        margin:30px 0px;
+        
+        
+    }
+
+    .in-lnk{
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    }
+    .in-lnk p{
+        width: 50%;
+    }
+    .reff{
+        flex-wrap: wrap;
+
+
+    }
+
+
+    .reff p {
+        padding: 10px;
+        font-size: 14px;
+        padding:  10px 0px;
+        margin: 10px ;
+    }
+    .reff button{
+        padding:10px;
+        border-radius: 10px;
+    }
+
+    .d-graphs{
+        /* flex-wrap: wrap;? */
+        justify-content: center;
+    }
+    .gains{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .gains p{
+        /* border: 1px solid black; */
+        width: 40%;
+        margin: 10px;
+    }
+
+
+}
+
+
+@media screen and (min-width:699px) and (max-width:1200px) {
+    .dsh{
+        padding:20px 20px;
+        /* border: 1px solid black; */
+        
+    }
+    .dsh nav{
+        margin: 0px;
+        /* border: 1px solid black; */
+    }
+    
+    
+    .menu{
+        display: none;
+    }
+    .nvbox{
+        width: 100%;
+    }
+
+    .hd-nav{
+        display: flex ;
+        width: 100%;
+        /* border: 1px solid black; */
+    
+    }
+
+    .wlcm{
+        /* border: 1px solid black; */
+        margin: 50px 20px;
+        padding:50px 20px;
+        position: relative;
+        background-color: #EAEEFD;
+        border-radius: 10px;
+        z-index: -1;
+       
+    
+    }
+
+    .wlcm h1{
+        margin: 10px 0px;
+        font-size: 36px;
+        font-weight: bolder;
+    }
+    .wlcm p{
+        font-size: 16px;
+    }
+    .wlcm img {
+        height: 200px;
+        position: absolute;
+        top: 170px;
+        right: -20px;
+        z-index: -1;
+    
+    }
+    .gains{
+        /* border: 1px solid black; */
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .gains p{
+        margin:5px;
+    }
+
+    .mjr01{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+
+}
+
+/* THE END OF THE SETUP/SIGNUP/REGISTER/LOGIN/DASHBOARDPAGES */
+
+   /* Mail forgot password */
+
+   .dispcont{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin:100px 0px ;
+    height: 100%;
+    flex-wrap: wrap;
+   }
+   .illustrate{
+   }
+
+   .forg{
+    height: 400px;
+
+   }
+
+   .fom-mail{
+    display: flex;
+    flex-direction:column ;
+   }
+
+   .forg-text{
+    margin: 30px 0px;
+   }
+
+   .forg-text h1{
+    font-size: 42px;
+    color: #004aad;
+    line-height: 5rem;
+   }
+   .forg-text p{
+    font-size: 18px;
+    color: #5c5c5ca7;
+    line-height: 1.7rem;
+
+   }
+
+   .sendmail .coli {
+    border: 1px solid #004AAD45;
+    width: 400px;
+    padding:15px 5px;
+    border-radius: 5px;
+    outline: none;
+    color: black;
+    color: grey;
+}
+   .both{
+    display: flex;
+    flex-direction: column;
+   }
+
+   .both label{
+    padding: 10px 0px;
+    font-size: 18px;
+    color: #004aad;
+       }
+
+   .mailbtn{
+    padding: 10px 20px;
+    margin: 10px 0px;
+    background-color: #004aad;
+    color: white;
+    border: none;   
+    border-radius:5px ; 
+   }
+
+   .infd{
+    color: #004aad;
+   }
+   .inns{
+    height: 30px;
+   }
+   .infd{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+@media screen and (max-width:425px) {
+    .forg{
+        height: 200px;
+    }
+    .forg-text h1{
+        line-height: 3.5rem;
+    }
+
+    .sendmail .coli {
+        width: 100%;
+        margin: 20px;
+    }
+}
+@media screen and (max-width: 899px) {
+   .Mailcont{
+    text-align: center;
+   } 
+
+   .forg{
+    height: 300px;
+    }
+    .sendmail .coli {
+        width: 100%;
+    }
+}
+
+
+
+    
+
+
+ 
