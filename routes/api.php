@@ -45,5 +45,6 @@ Route::get('/fetch-categories', [App\Http\Controllers\ProductController::class, 
 // Product Route
 Route::post('/create-product', [App\Http\Controllers\ProductController::class, 'createProduct']);
 Route::get('/fetch-product', [App\Http\Controllers\ProductController::class, 'fetchProduct']);
+Route::get('/fetch-single-product/{product_id}', [App\Http\Controllers\ProductController::class, 'fetchSingleProduct']);
 Route::get('/fetch-product/{category_id}', [App\Http\Controllers\ProductController::class, 'fetchProductWithCategory']);
 

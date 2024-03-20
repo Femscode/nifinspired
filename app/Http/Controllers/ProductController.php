@@ -87,6 +87,18 @@ class ProductController extends Controller
             'product' => $product
         ], 200);
     }
+    public function fetchSingleProduct($id)
+    {
+
+
+        $product = Product::find($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Single Product Fetched Successfully',
+            'product' => $product
+        ], 200);
+    }
     public function fetchProductWithCategory($id)
     {
 
