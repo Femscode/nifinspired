@@ -38,7 +38,12 @@ Route::post('/forgot-password', [App\Http\Controllers\UserController::class, 'fo
 
 Route::get('/fetch_user_details/{email}', [App\Http\Controllers\WorkshopController::class, 'fetch_user_details'])->name('fetch_user_details');
 
+// Product Category Route
+Route::post('/create-category', [App\Http\Controllers\ProductController::class, 'createCategory']);
+Route::get('/fetch-categories', [App\Http\Controllers\ProductController::class, 'fetchCategory']);
+
 // Product Route
 Route::post('/create-product', [App\Http\Controllers\ProductController::class, 'createProduct']);
 Route::get('/fetch-product', [App\Http\Controllers\ProductController::class, 'fetchProduct']);
 Route::get('/fetch-product/{category_id}', [App\Http\Controllers\ProductController::class, 'fetchProductWithCategory']);
+

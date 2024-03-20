@@ -3,10 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function createCategory(Request $request) {
+        $this->validate($request, [
+            'name' => 'required',          
+        ]);
+
+        $category = Category::create([
+          
+            'name' => $request->name,           
+            'description' => $request->description,           
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Category Created Successfully',            
+            'category' => $category
+        ], 200);
+    }
+    public function fetchCategory() {
+        $category = Category::latest()->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'All Categories Fetched Successfully',            
+            'categories' => $category
+        ], 200);
+    }
+
     public function createProduct(Request $request) {
         $this->validate($request, [
             'name' => 'required',
@@ -15,6 +43,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create([
+            'uuid' => Str::uuid(),
             'name' => $request->name,
             'price' => $request->price,
             'description' => $request->description,
