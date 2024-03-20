@@ -114,12 +114,7 @@ class RegisterController extends Controller
             ]);
        
        
-            return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken,
-                'user' => $user
-            ], 200);
+           
 
             $data = array('name' => $request->name, 'slug' => ucwords(str_replace(' ', '', $request->name)));
             $email = $request->email;
@@ -127,7 +122,12 @@ class RegisterController extends Controller
                 $message->to($email, '')->subject('Welcome to Nifinspired');
                 $message->from('support@connectinskillz.com', 'Nifinspired');
             });
-           
+            return response()->json([
+                'status' => true,
+                'message' => 'User Created Successfully',
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'user' => $user
+            ], 200);
     }
     
 }
