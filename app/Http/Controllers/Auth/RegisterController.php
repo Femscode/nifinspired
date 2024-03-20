@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -119,6 +120,13 @@ class RegisterController extends Controller
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
                 'user' => $user
             ], 200);
+
+            $data = array('name' => $request->name, 'slug' => ucwords(str_replace(' ', '', $request->name)));
+            $email = $request->email;
+            Mail::send('mail.welcome', $data, function ($message) use ($email) {
+                $message->to($email, '')->subject('Welcome to Nifinspired');
+                $message->from('support@connectinskillz.com', 'Nifinspired');
+            });
            
     }
     
