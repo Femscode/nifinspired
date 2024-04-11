@@ -204,7 +204,7 @@ class UserController extends Controller
         $data = array('name' => $name, 'ref' => $ref, 'email' => $email);
        
         Mail::send('mail.forgot-password', $data, function ($message) use ($email) {
-            $message->to($email)->subject('ConnectinSkillz Verification Email');
+            $message->to($email)->subject('Nifinspired Password Reset Email');
             $message->from('support@connectinskillz.com', 'Connectinskillz');
         });
         return response()->json([
