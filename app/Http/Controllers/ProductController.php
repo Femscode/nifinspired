@@ -76,17 +76,29 @@ class ProductController extends Controller
             $image = $request->file('image');
             $imageName = $image->hashName();
             $image->move(public_path('product_images'), $imageName);
+            $product = Product::create([
+                'uuid' => Str::uuid(),
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+                'image' => $imageName,
+                'category' => $request->category,
+                'category_id' => $request->category_id,
+                'quantity' => $request->quantity
+            ]);
+        } else {
+            $product = Product::create([
+                'uuid' => Str::uuid(),
+                'name' => $request->name,
+                'price' => $request->price,
+                'description' => $request->description,
+              
+                'category' => $request->category,
+                'category_id' => $request->category_id,
+                'quantity' => $request->quantity
+            ]);
         }
-        $product = Product::create([
-            'uuid' => Str::uuid(),
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-            'image' => $imageName,
-            'category' => $request->category,
-            'category_id' => $request->category_id,
-            'quantity' => $request->quantity
-        ]);
+      
 
         return response()->json([
             'status' => true,
