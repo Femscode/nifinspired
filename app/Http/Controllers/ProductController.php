@@ -64,7 +64,7 @@ class ProductController extends Controller
         //     'price' => 'required',
         //     'description' => 'required'
         // ]);
-        return $request->all();
+         dd($request->all());
         $checkpro = Product::where('name', $request->name)->first();
         if ($checkpro) {
             return response()->json([
