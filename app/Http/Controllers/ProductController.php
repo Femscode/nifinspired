@@ -59,12 +59,12 @@ class ProductController extends Controller
 
     public function createProduct(Request $request)
     {
-        // $this->validate($request, [
-        //     'name' => 'required',
-        //     'price' => 'required',
-        //     'description' => 'required'
-        // ]);
-         dd($request->all());
+        $this->validate($request, [
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required'
+        ]);
+        
         $checkpro = Product::where('name', $request->name)->first();
         if ($checkpro) {
             return response()->json([
@@ -78,6 +78,7 @@ class ProductController extends Controller
           
             $image = $request->file('image');
             $imageName = $image->hashName();
+            return $imageName;
             $image->move(public_path('product_images'), $imageName);
             $product = Product::create([
                 'uuid' => Str::uuid(),
