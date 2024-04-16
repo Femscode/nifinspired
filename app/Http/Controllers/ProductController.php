@@ -57,7 +57,7 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function createProduct(Request $request)
+    public function createPrt(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
