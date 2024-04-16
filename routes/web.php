@@ -17,7 +17,6 @@ Route::get('/forgot-password', function () {
 Route::any('home', function() {
     return redirect('/dashboard');
 });
-
 // Route::any('/', [App\Http\Controllers\UserController::class, 'homepage'])->name('homepage');
 Route::any('/', [App\Http\Controllers\UserController::class, 'landing'])->name('landing');
 Route::any('/waitlist', [App\Http\Controllers\UserController::class, 'waitlist'])->name('waitlist');

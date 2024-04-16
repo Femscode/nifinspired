@@ -53,7 +53,7 @@ Route::any('/delete-product/{id}', [App\Http\Controllers\ProductController::clas
 // Blog Route
 Route::post('/create-blog', [App\Http\Controllers\ProductController::class, 'createBlog']);
 Route::get('/fetch-blogs', [App\Http\Controllers\ProductController::class, 'fetchBlog']);
-Route::get('/fetch-single-blog/{product_id}', [App\Http\Controllers\ProductController::class, 'fetchSingleBlog']);
+Route::get('/fetch-single-blog/{blog_id}', [App\Http\Controllers\ProductController::class, 'fetchSingleBlog']);
 Route::get('/fetch-blog-by-category/{category}', [App\Http\Controllers\ProductController::class, 'fetchBlogWithCategory']);
 Route::any('/delete-blog/{id}', [App\Http\Controllers\ProductController::class, 'deleteBlog']);
 

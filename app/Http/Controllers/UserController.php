@@ -16,6 +16,7 @@ use App\Models\ReferralProgram;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Traits\TransactionTrait;
 use Illuminate\Auth\Events\PasswordReset;
@@ -95,8 +96,15 @@ class UserController extends Controller
     }
     public function landing()
     {
-        //    dd('here');
-        return "This is the landing page";       
+        return "This is the landing page";
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->post('https://nifinspired.connectinskillz.com/api/create-category', [
+            'name' => 'face',
+           
+            // Add any request data here
+        ]);
+        return $response->json();
     }
     public function waitlist()
     {
@@ -180,12 +188,13 @@ class UserController extends Controller
             return response('User Subscribed Successfully, Check Mail To Set Password', 200);
         }
     }
-    public function forgot_password(Request $request) {
-        $this->validate($request, ['email'=> 'required']);
+    public function forgot_password(Request $request)
+    {
+        $this->validate($request, ['email' => 'required']);
         $data['confirm_id'] = $ref = Str::random(15);
         $email = $request->email;
-        $check_email = User::where('email',$email)->first();
-        if($check_email == null) {
+        $check_email = User::where('email', $email)->first();
+        if ($check_email == null) {
             return response()->json([
                 'status' => false,
                 'message' => 'Email Address Not Registered With Us.',
@@ -199,10 +208,10 @@ class UserController extends Controller
         ]);
 
 
-      
+
         //here is where the mail comes in
         $data = array('name' => $name, 'ref' => $ref, 'email' => $email);
-       
+
         Mail::send('mail.forgot-password', $data, function ($message) use ($email) {
             $message->to($email)->subject('Nifinspired Password Reset Email');
             $message->from('support@connectinskillz.com', 'Connectinskillz');
@@ -301,9 +310,9 @@ class UserController extends Controller
 
         try {
             $user = Auth::user();
-            $courses = Course::where('user_id',$user->uid)->get();
-            $discussions = Discussion::where('user_id',$user->uid)->get();
-            $duration = Duration::where('user_id',$user->uid)->get();
+            $courses = Course::where('user_id', $user->uid)->get();
+            $discussions = Discussion::where('user_id', $user->uid)->get();
+            $duration = Duration::where('user_id', $user->uid)->get();
             return response()->json(['Profile' => $user, 'Enrolled Courses' => $courses, 'Discussions' => $discussions, 'Time Spent On The Platform' => $duration], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -312,7 +321,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-    
+
     function faq()
     {
         return view('frontend.faq');

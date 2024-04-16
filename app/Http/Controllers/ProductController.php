@@ -238,6 +238,17 @@ class ProductController extends Controller
 
         ], 200);
     }
+    public function deleteCategory($id)
+    {
+        $category = Category::find($id);
+       
+        $category->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Category Deleted Successfully',
+
+        ], 200);
+    }
     public function deleteBlog($id)
     {
         $blog = Blog::find($id);
