@@ -72,9 +72,9 @@ class ProductController extends Controller
 
             ], 200);
         }
-        return "here";
+        return $request->all();
         if ($request->image !== null) {
-            return $request->image;
+          
             $image = $request->file('image');
             $imageName = $image->hashName();
             $image->move(public_path('product_images'), $imageName);
