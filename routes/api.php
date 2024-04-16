@@ -44,7 +44,7 @@ Route::get('/fetch-categories', [App\Http\Controllers\ProductController::class, 
 Route::any('/delete-category/{id}', [App\Http\Controllers\ProductController::class, 'deleteCategory']);
 
 // Product Route
-Route::post('/create-prd', [App\Http\Controllers\ProductController::class, 'createPrt']);
+Route::post('/create-product', [App\Http\Controllers\ProductController::class, 'createProduct']);
 Route::get('/fetch-products', [App\Http\Controllers\ProductController::class, 'fetchProduct']);
 Route::get('/fetch-single-product/{product_id}', [App\Http\Controllers\ProductController::class, 'fetchSingleProduct']);
 Route::get('/fetch-product/{category_id}', [App\Http\Controllers\ProductController::class, 'fetchProductWithCategory']);

@@ -57,13 +57,13 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function createPrt(Request $request)
+    public function createProduct(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'price' => 'required',
-            'description' => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'price' => 'required',
+        //     'description' => 'required'
+        // ]);
         $checkpro = Product::where('name', $request->name)->first();
         if ($checkpro) {
             return response()->json([
