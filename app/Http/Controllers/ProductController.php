@@ -72,6 +72,7 @@ class ProductController extends Controller
 
             ], 200);
         }
+        return "here";
         if ($request->image !== null) {
             return $request->image;
             $image = $request->file('image');
