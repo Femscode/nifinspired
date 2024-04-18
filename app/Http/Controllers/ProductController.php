@@ -13,30 +13,38 @@ class ProductController extends Controller
 {
     public function createCategory(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
-        $checkcat = Category::where('name', $request->name)->first();
-        if ($checkcat) {
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+            ]);
+            $checkcat = Category::where('name', $request->name)->first();
+            if ($checkcat) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Category Already Exist',
+
+                ], 200);
+            }
+
+
+            $category = Category::create([
+
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Category Created Successfully',
+                'category' => $category
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
             return response()->json([
                 'status' => false,
-                'message' => 'Category Already Exist',
-
-            ], 200);
+                'message' => $e->getMessage()
+            ], 500);
         }
-
-
-        $category = Category::create([
-
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Category Created Successfully',
-            'category' => $category
-        ], 200);
     }
     public function fetchCategory()
     {
@@ -49,37 +57,50 @@ class ProductController extends Controller
     }
     public function deleteategory($id)
     {
-        $category = Category::find($id);
-        $category->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Category Deleted Successfully',           
-        ], 200);
+        try {
+            $category = Category::find($id);
+            $category->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Category Deleted Successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
     public function createProduct(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'price' => 'required',
-            'description' => 'required'
-        ]);
-        
-        $checkpro = Product::where('name', $request->name)->first();
-        if ($checkpro) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Product Already Exist',
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'price' => 'required',
+                'description' => 'required',
+                'image' => 'required',
+                'category' => 'required'
+            ]);
 
-            ], 200);
-        }
-        return $request->all();
-        if ($request->image !== null) {
-          
-            $image = $request->file('image');
-            $imageName = $image->hashName();
-            return $imageName;
-            $image->move(public_path('product_images'), $imageName);
+            $checkpro = Product::where('name', $request->name)->first();
+            if ($checkpro) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Product Already Exist',
+                ], 200);
+            }
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = $image->hashName();
+                $image->move(public_path('product_images'), $imageName);
+            } else {
+                $imageName = null; // No image provided
+            }
+
             $product = Product::create([
                 'uuid' => Str::uuid(),
                 'name' => $request->name,
@@ -87,85 +108,97 @@ class ProductController extends Controller
                 'description' => $request->description,
                 'image' => $imageName,
                 'category' => $request->category,
-                'category_id' => $request->category_id,
-                'quantity' => $request->quantity
+                'quantity' => $request->quantity ?? 0, // If quantity is not provided, default to 0
+                'category_id' => $request->category_id ?? null // If category_id is not provided, default to null
             ]);
-        } else {
-            $product = Product::create([
-                'uuid' => Str::uuid(),
-                'name' => $request->name,
-                'price' => $request->price,
-                'description' => $request->description,
-              
-                'category' => $request->category,
-                'category_id' => $request->category_id,
-                'quantity' => $request->quantity
-            ]);
-        }
-      
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Product Created Successfully',
-            'product' => $product
-        ], 200);
-    }
-    public function createBlog(Request $request)
-    {
-        $this->validate($request, [
-            'title' => 'required',
-            'image' => 'required',
-            'description' => 'required'
-        ]);
-        $checkpro = Blog::where('title', $request->title)->first();
-        if ($checkpro) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Created Successfully',
+                'product' => $product
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
             return response()->json([
                 'status' => false,
-                'message' => 'Blog Title Already Exist',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 
+    public function createBlog(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'title' => 'required',
+                'image' => 'required',
+                'description' => 'required',
+                'category' => 'required',
+            ]);
+            $checkpro = Blog::where('title', $request->title)->first();
+            if ($checkpro) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Blog Title Already Exist',
+
+                ], 200);
+            }
+            if ($request->image !== null) {
+                $image = $request->file('image');
+                $imageName = $image->hashName();
+                $image->move(public_path('blog_images'), $imageName);
+            }
+            $product = Blog::create([
+                'uuid' => Str::uuid(),
+                'title' => $request->title,
+                'description' => $request->description,
+                'image' => $imageName,
+                'category' => $request->category,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Blog Created Successfully',
+                'product' => $product
             ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
-        if ($request->image !== null) {
-            $image = $request->file('image');
-            $imageName = $image->hashName();
-            $image->move(public_path('blog_images'), $imageName);
-        }
-        $product = Blog::create([
-            'uuid' => Str::uuid(),
-            'title' => $request->name,
-            'description' => $request->description,
-            'image' => $imageName,
-            'category' => $request->category,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Blog Created Successfully',
-            'product' => $product
-        ], 200);
     }
     public function createContactUs(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'message' => 'required'
-        ]);
-       
-       
-        $contact = Contact::create([           
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'message' => $request->message,
-        ]);
+        try {
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => 'required',
+                'phone' => 'required',
+                'message' => 'required'
+            ]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Message / Complaint sent successfully!',
-            'contact' => $contact
-        ], 200);
+
+            $contact = Contact::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'message' => $request->message,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Message / Complaint sent successfully!',
+                'contact' => $contact
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
     public function fetchProduct()
     {
@@ -182,7 +215,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'ContactUs Messages/Complaint Fetched Successfully',
-            'product' => $contact
+            'contact' => $contact
         ], 200);
     }
     public function fetchBlog()
@@ -213,7 +246,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Blog Fetched Successfully',
-            'product' => $blog
+            'blog' => $blog
         ], 200);
     }
     public function fetchProductWithCategory($id)
@@ -230,50 +263,75 @@ class ProductController extends Controller
     }
     public function deleteProduct($id)
     {
-        $product = Product::find($id);
-        $productPath = public_path('product_images') . '/' . $product->image;
-        if (file_exists($productPath)) {
-            unlink($productPath);
-        }
-        $product->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Product Deleted Successfully',
+        try {
+            $product = Product::find($id);
+            $productPath = public_path('product_images') . '/' . $product->image;
+            if (file_exists($productPath)) {
+                unlink($productPath);
+            }
+            $product->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Deleted Successfully',
 
-        ], 200);
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
     public function deleteCategory($id)
     {
-        $category = Category::find($id);
-       
-        $category->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Category Deleted Successfully',
+        try {
+            $category = Category::find($id);
 
-        ], 200);
+            $category->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Category Deleted Successfully',
+
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
     public function deleteBlog($id)
     {
-        $blog = Blog::find($id);
-        $blogPath = public_path('blog_images') . '/' . $blog->image;
-        if (file_exists($blogPath)) {
-            unlink($blogPath);
-        }
-        $blog->delete();
-        return response()->json([
-            'status' => true,
-            'message' => 'Blog Deleted Successfully',
+        try {
+            $blog = Blog::find($id);
+            $blogPath = public_path('blog_images') . '/' . $blog->image;
+            if (file_exists($blogPath)) {
+                unlink($blogPath);
+            }
+            $blog->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Blog Deleted Successfully',
 
-        ], 200);
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
     public function fetchBlogWithCategory($cat)
     {
+        
         $blog = Blog::where('category', $cat)->latest()->get();
         return response()->json([
             'status' => true,
             'message' => 'Blog Fetched Successfully',
-            'product' => $blog
+            'blog' => $blog
         ], 200);
     }
     //
