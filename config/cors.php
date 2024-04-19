@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*','https://nifinspired.connectinskillz.com','https://nifinspired.connectinskillz.com/api'],
+    'allowed_origins' => ['*','https://nifinspired.connectinskillz.com','https://nifinspired.connectinskillz.com/api','http://localhost:3000'],
 
     'allowed_origins_patterns' => [],
 

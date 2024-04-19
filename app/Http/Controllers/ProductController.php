@@ -85,6 +85,8 @@ class ProductController extends Controller
                 'category' => 'required'
             ]);
 
+            
+
             $checkpro = Product::where('name', $request->name)->first();
             if ($checkpro) {
                 return response()->json([
@@ -326,7 +328,7 @@ class ProductController extends Controller
     }
     public function fetchBlogWithCategory($cat)
     {
-        
+
         $blog = Blog::where('category', $cat)->latest()->get();
         return response()->json([
             'status' => true,
