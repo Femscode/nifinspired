@@ -119,7 +119,7 @@ class ProductController extends Controller
                 'contents' => $request->contents ?? null, // If quantity is not provided, default to 0
             ]);
 
-            $product['image'] = "https://nifinspired.connectinskillz.com/nifinspired_files/public/product_images/".$imageName;
+            $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/".$imageName;
             return response()->json([
                 'status' => true,
                 'message' => 'Product Created Successfully',
@@ -210,11 +210,15 @@ class ProductController extends Controller
     }
     public function fetchProduct()
     {
-        $product = Product::latest()->get();
+        $products = Product::latest()->get();
+        
+        foreach ($products as $product) {
+            $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
+        }
         return response()->json([
             'status' => true,
             'message' => 'All Products Fetched Successfully',
-            'product' => $product
+            'product' => $products
         ], 200);
     }
     public function fetchContactUs()
@@ -229,6 +233,9 @@ class ProductController extends Controller
     public function fetchBlog()
     {
         $blogs = Blog::latest()->get();
+        foreach ($blogs as $blog) {
+            $blog->image = "https://connectinskillz.com/nifinspired_files/public/blog_images/".$blog->image;
+        }
         return response()->json([
             'status' => true,
             'message' => 'All Blogs Fetched Successfully',
@@ -240,6 +247,8 @@ class ProductController extends Controller
 
 
         $product = Product::find($id);
+        
+        $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
 
         return response()->json([
             'status' => true,
@@ -250,6 +259,8 @@ class ProductController extends Controller
     public function fetchSingleBlog($id)
     {
         $blog = Blog::find($id);
+        
+        $blog['image'] = "https://connectinskillz.com/nifinspired_files/public/blog_images/".$blog->image;
 
         return response()->json([
             'status' => true,
@@ -261,12 +272,14 @@ class ProductController extends Controller
     {
 
 
-        $product = Product::where('category_id', $id)->latest()->get();
-
+        $products = Product::where('category_id', $id)->latest()->get();
+        foreach ($products as $product) {
+            $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
+        }
         return response()->json([
             'status' => true,
             'message' => 'Product Fetched Successfully',
-            'product' => $product
+            'product' => $products
         ], 200);
     }
     public function deleteProduct($id)
