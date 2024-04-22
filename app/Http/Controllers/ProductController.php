@@ -82,7 +82,9 @@ class ProductController extends Controller
                 'price' => 'required',
                 'description' => 'required',
                 'image' => 'required',
-                'category' => 'required'
+                'category' => 'required',
+               
+
             ]);
 
             
@@ -111,9 +113,13 @@ class ProductController extends Controller
                 'image' => $imageName,
                 'category' => $request->category,
                 'quantity' => $request->quantity ?? 0, // If quantity is not provided, default to 0
-                'category_id' => $request->category_id ?? null // If category_id is not provided, default to null
+                'usage' => $request->usage ?? null, // If quantity is not provided, default to 0
+                'allergenes' => $request->allergenes ?? null, // If quantity is not provided, default to 0
+                'functions' => $request->functions ?? null, // If quantity is not provided, default to 0
+                'contents' => $request->contents ?? null, // If quantity is not provided, default to 0
             ]);
 
+            $product['image'] = "https://nifinspired.connectinskillz.com/nifinspired_files/public/product_images/".$imageName;
             return response()->json([
                 'status' => true,
                 'message' => 'Product Created Successfully',
