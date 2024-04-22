@@ -268,11 +268,11 @@ class ProductController extends Controller
             'blog' => $blog
         ], 200);
     }
-    public function fetchProductWithCategory($id)
+    public function fetchProductWithCategory($category)
     {
 
 
-        $products = Product::where('category_id', $id)->latest()->get();
+        $products = Product::where('category', $category)->latest()->get();
         foreach ($products as $product) {
             $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
         }
