@@ -48,11 +48,14 @@ class ProductController extends Controller
     }
     public function fetchCategory()
     {
-        $category = Category::latest()->get();
+        $categories = Category::latest()->get();
+        foreach ($categories as $cat) {
+            $cat->image = "https://connectinskillz.com/nifinspired_files/public/category_images/".$cat->image;
+        }
         return response()->json([
             'status' => true,
             'message' => 'All Categories Fetched Successfully',
-            'categories' => $category
+            'categories' => $categories
         ], 200);
     }
     public function deleteategory($id)
@@ -187,12 +190,20 @@ class ProductController extends Controller
                 'message' => 'required'
             ]);
 
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = $image->hashName();
+                $image->move(public_path('category_images'), $imageName);
+            } else {
+                $imageName = null; // No image provided
+            }
 
             $contact = Contact::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'message' => $request->message,
+                'image' => $imageName,
             ]);
 
             return response()->json([
