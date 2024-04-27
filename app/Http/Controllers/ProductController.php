@@ -26,11 +26,19 @@ class ProductController extends Controller
                 ], 200);
             }
 
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = $image->hashName();
+                $image->move(public_path('category_images'), $imageName);
+            } else {
+                $imageName = null; // No image provided
+            }
 
             $category = Category::create([
 
                 'name' => $request->name,
                 'description' => $request->description,
+                'image' => $imageName,
             ]);
 
             return response()->json([
@@ -190,20 +198,14 @@ class ProductController extends Controller
                 'message' => 'required'
             ]);
 
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imageName = $image->hashName();
-                $image->move(public_path('category_images'), $imageName);
-            } else {
-                $imageName = null; // No image provided
-            }
+          
 
             $contact = Contact::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'message' => $request->message,
-                'image' => $imageName,
+                
             ]);
 
             return response()->json([
