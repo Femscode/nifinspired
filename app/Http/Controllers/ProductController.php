@@ -298,7 +298,7 @@ class ProductController extends Controller
             'product' => $products
         ], 200);
     }
-    public function deleteProduct(Request $request)
+    public function olddeleteProduct(Request $request)
     {
         try {
             $ids = $request->input('ids', []);
@@ -323,6 +323,33 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function deleteProducts(Request $request)
+    {
+        $ids = $request->input('ids', '');
+
+        // Convert the ids to an array if they are not already
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+
+        try {
+            foreach ($ids as $id) {
+                $product = Product::find($id);
+                if ($product) {
+                    $productPath = public_path('product_images') . '/' . $product->image;
+                    if (file_exists($productPath)) {
+                        unlink($productPath);
+                    }
+                    $product->delete();
+                }
+            }
+            return response()->json(['success' => true, 'message' => 'Products deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
+        }
+    }
+
     public function deleteCategory($id)
     {
         try {
