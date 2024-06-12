@@ -324,7 +324,7 @@ class ProductController extends Controller
         }
     }
 
-    public function deleteProducts(Request $request)
+    public function deleteProduct(Request $request)
     {
         $ids = $request->input('ids', '');
 
