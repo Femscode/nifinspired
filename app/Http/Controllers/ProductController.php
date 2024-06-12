@@ -41,6 +41,9 @@ class ProductController extends Controller
                 'image' => $imageName,
             ]);
 
+            $category['image'] = "https://connectinskillz.com/nifinspired_files/public/category_images/" . $imageName;
+
+
             return response()->json([
                 'status' => true,
                 'message' => 'Category Created Successfully',
@@ -58,7 +61,7 @@ class ProductController extends Controller
     {
         $categories = Category::latest()->get();
         foreach ($categories as $cat) {
-            $cat->image = "https://connectinskillz.com/nifinspired_files/public/category_images/".$cat->image;
+            $cat->image = "https://connectinskillz.com/nifinspired_files/public/category_images/" . $cat->image;
         }
         return response()->json([
             'status' => true,
@@ -94,11 +97,11 @@ class ProductController extends Controller
                 'description' => 'required',
                 'image' => 'required',
                 'category' => 'required',
-               
+
 
             ]);
 
-            
+
 
             $checkpro = Product::where('name', $request->name)->first();
             if ($checkpro) {
@@ -130,7 +133,7 @@ class ProductController extends Controller
                 'contents' => $request->contents ?? null, // If quantity is not provided, default to 0
             ]);
 
-            $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/".$imageName;
+            $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $imageName;
             return response()->json([
                 'status' => true,
                 'message' => 'Product Created Successfully',
@@ -198,14 +201,14 @@ class ProductController extends Controller
                 'message' => 'required'
             ]);
 
-          
+
 
             $contact = Contact::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'message' => $request->message,
-                
+
             ]);
 
             return response()->json([
@@ -224,9 +227,9 @@ class ProductController extends Controller
     public function fetchProduct()
     {
         $products = Product::latest()->get();
-        
+
         foreach ($products as $product) {
-            $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
+            $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $product->image;
         }
         return response()->json([
             'status' => true,
@@ -247,7 +250,7 @@ class ProductController extends Controller
     {
         $blogs = Blog::latest()->get();
         foreach ($blogs as $blog) {
-            $blog->image = "https://connectinskillz.com/nifinspired_files/public/blog_images/".$blog->image;
+            $blog->image = "https://connectinskillz.com/nifinspired_files/public/blog_images/" . $blog->image;
         }
         return response()->json([
             'status' => true,
@@ -260,8 +263,8 @@ class ProductController extends Controller
 
 
         $product = Product::find($id);
-        
-        $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
+
+        $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $product->image;
 
         return response()->json([
             'status' => true,
@@ -272,8 +275,8 @@ class ProductController extends Controller
     public function fetchSingleBlog($id)
     {
         $blog = Blog::find($id);
-        
-        $blog['image'] = "https://connectinskillz.com/nifinspired_files/public/blog_images/".$blog->image;
+
+        $blog['image'] = "https://connectinskillz.com/nifinspired_files/public/blog_images/" . $blog->image;
 
         return response()->json([
             'status' => true,
@@ -287,7 +290,7 @@ class ProductController extends Controller
 
         $products = Product::where('category', $category)->latest()->get();
         foreach ($products as $product) {
-            $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/".$product->image;
+            $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $product->image;
         }
         return response()->json([
             'status' => true,
@@ -295,20 +298,23 @@ class ProductController extends Controller
             'product' => $products
         ], 200);
     }
-    public function deleteProduct($id)
+    public function deleteProduct(Request $request)
     {
         try {
-            $product = Product::find($id);
-            $productPath = public_path('product_images') . '/' . $product->image;
-            if (file_exists($productPath)) {
-                unlink($productPath);
-            }
-            $product->delete();
-            return response()->json([
-                'status' => true,
-                'message' => 'Product Deleted Successfully',
+            $ids = $request->input('ids', []);
+            foreach ($ids as $id) {
+                $product = Product::find($id);
+                $productPath = public_path('product_images') . '/' . $product->image;
+                if (file_exists($productPath)) {
+                    unlink($productPath);
+                }
+                $product->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Product Deleted Successfully',
 
-            ], 200);
+                ], 200);
+            }
         } catch (\Exception $e) {
             // Handle any exceptions here
             return response()->json([
