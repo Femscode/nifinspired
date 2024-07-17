@@ -1,10 +1,12 @@
 <?php
+use App\Http\Controllers\StripeController;
+use App\Models\Subscribe;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Models\Subscribe;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +20,8 @@ use Illuminate\Support\Facades\Mail;
 
 
 //previous routes used for the waiting list project
+
+Route::post('/stripe/payment', [StripeController::class, 'createPaymentIntent']);
 
 Route::get('/alluser', [App\Http\Controllers\ApiController::class, 'alluser']);
 Route::get('/getuser', [App\Http\Controllers\ApiController::class, 'getuser']);

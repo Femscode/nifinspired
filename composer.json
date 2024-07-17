@@ -16,7 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "spatie/laravel-webhook-client": "^2.8",
-        "stripe/stripe-php": "^12.4",
+        "stripe/stripe-php": "^15.2",
         "symfony/http-client": "^5.4",
         "symfony/mailgun-mailer": "^5.4",
         "tymon/jwt-auth": "^1.0",
