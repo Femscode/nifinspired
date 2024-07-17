@@ -17,7 +17,7 @@ class StripeController extends Controller
 
     public function createPaymentIntent(Request $request)
     {
-        $amount = $request->input('amount');
+        $amount = $request->input('amount') * 100;
         $currency =  $request->input('currency');
         $paymentIntent = $this->stripeService->createPaymentIntent($amount,$currency);
 
