@@ -402,4 +402,85 @@ class ProductController extends Controller
         ], 200);
     }
     //
+    public function create_product($product = null, $price = null, $currency = null)
+    {
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+
+            $ng = $stripe->products->create(['name' => $product]);
+            // ngn_price_id = price_1NuGqsAvZkWDJwLRY9lLeXy7
+            // us_price_id = price_1NuGtxAvZkWDJwLRV3uzkERa
+            // uk_price_id = price_1NuGtSAvZkWDJwLRs7Rnahlz
+            // others_price_id = price_1NuGucAvZkWDJwLRnZjwFBis
+            // ngn_price_id_test = price_1NuGvNAvZkWDJwLRb0ECuJnO
+
+            // $ng = $stripe->products->create(['name' => 'DBA_Workshop_Nigeria']);
+            // $uk = $stripe->products->create(['name' => 'DBA_Workshop_UK']);
+            // $uk = $stripe->products->create(['name' => 'DBA_Workshop_US']);
+            // $others = $stripe->products->create(['name' => 'DBA_Workshop_Others']);
+
+            $payment =  $stripe->prices->create([
+                'product' => $ng->id,
+                'unit_amount' => $price,
+                'currency' => $currency,
+            ]);
+            //here is the response I got from the very first request {"status":true,"message":"Product created successfully!","data":{"id":"price_1NttwHAvZkWDJwLRIwVf4TrA","object":"price","active":true,"billing_scheme":"per_unit","created":1695568181,"currency":"usd","custom_unit_amount":null,"livemode":false,"lookup_key":null,"metadata":[],"nickname":null,"product":"prod_OhIUEFIceLlm5y","recurring":null,"tax_behavior":"unspecified","tiers_mode":null,"transform_quantity":null,"type":"one_time","unit_amount":100,"unit_amount_decimal":"100"}}
+            return response()->json([
+                'status' => true,
+                'message' => 'Product created successfully!',
+                'data' => $payment
+
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function make_payment($price_id  = null)
+    {
+        try {
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            header('Content-Type: application/json');
+
+            $YOUR_DOMAIN = 'https://nifinspired.connectinskillz.com/api';
+
+            $checkout_session = \Stripe\Checkout\Session::create([
+                'line_items' => [[
+                    # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+                    'price' => $price_id,
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => 'https://nifinspired.connectinskillz.com/api/success_payment',
+                'cancel_url' => 'https://nifinspired.connectinskillz.com/api/failed_payment',
+            ]);
+
+            return $checkout_session;
+
+            header("HTTP/1.1 303 See Other");
+            header("Location: " . $checkout_session->url);
+
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Payment Made!',
+
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function success_payment(Request $request)
+    {
+        file_put_contents(__DIR__ . '/stripelog.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+        return response()->json("OK", 200);
+    }
+
 }
