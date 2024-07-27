@@ -414,7 +414,7 @@ class ProductController extends Controller
 
             $payment =  $stripe->prices->create([
                 'product' => $ng->id,
-                'unit_amount' => $product->price,
+                'unit_amount' => ceil($product->price),
                 'currency' => 'usd',
             ]);
             //here is the response I got from the very first request {"status":true,"message":"Product created successfully!","data":{"id":"price_1NttwHAvZkWDJwLRIwVf4TrA","object":"price","active":true,"billing_scheme":"per_unit","created":1695568181,"currency":"usd","custom_unit_amount":null,"livemode":false,"lookup_key":null,"metadata":[],"nickname":null,"product":"prod_OhIUEFIceLlm5y","recurring":null,"tax_behavior":"unspecified","tiers_mode":null,"transform_quantity":null,"type":"one_time","unit_amount":100,"unit_amount_decimal":"100"}}
