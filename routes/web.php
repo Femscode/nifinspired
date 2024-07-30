@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Auth::routes();
 
 Route::any('/sendmail', [App\Http\Controllers\UserController::class, 'sendmail'])->name('sendmail');
-
+Route::view('stripepay','stripepay');
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->middleware('guest')->name('password.request');

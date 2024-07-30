@@ -20,7 +20,8 @@ class StripeController extends Controller
         $amount = $request->input('amount') * 100;
         $currency =  $request->input('currency');
         $paymentIntent = $this->stripeService->createPaymentIntent($amount,$currency);
-
+        return response()->json(['clientSecret' => $paymentIntent->client_secret]);
         return response()->json($paymentIntent);
+
     }
 }
