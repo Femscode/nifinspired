@@ -483,6 +483,7 @@ class ProductController extends Controller
         try {
 
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            return array(env('STRIPE_SECRET'),$stripe);
             header('Content-Type: application/json');
             $ng = $stripe->products->create(['name' => 'Quick Checkout']);
 
@@ -490,10 +491,9 @@ class ProductController extends Controller
             $payment =  $stripe->prices->create([
                 'product' => $ng->id,
                 'unit_amount' => ceil($request->amount * 100),
-                'currency' => 'usd',
+                'currency' => $request->currency,
             ]);
-            //here is the response I got from the very first request {"status":true,"message":"Product created successfully!","data":{"id":"price_1NttwHAvZkWDJwLRIwVf4TrA","object":"price","active":true,"billing_scheme":"per_unit","created":1695568181,"currency":"usd","custom_unit_amount":null,"livemode":false,"lookup_key":null,"metadata":[],"nickname":null,"product":"prod_OhIUEFIceLlm5y","recurring":null,"tax_behavior":"unspecified","tiers_mode":null,"transform_quantity":null,"type":"one_time","unit_amount":100,"unit_amount_decimal":"100"}}
-
+          
             $checkout_session = \Stripe\Checkout\Session::create([
                 'line_items' => [[
                     # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
