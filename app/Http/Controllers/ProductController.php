@@ -482,8 +482,8 @@ class ProductController extends Controller
     {
         try {
 
+            return env('STRIPE_SECRET');
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-            return array(env('STRIPE_SECRET'),$stripe);
             header('Content-Type: application/json');
             $ng = $stripe->products->create(['name' => 'Quick Checkout']);
 
