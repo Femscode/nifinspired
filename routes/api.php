@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StripeController;
 use App\Models\Subscribe;
 use App\Models\User;
@@ -6,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +72,6 @@ Route::any('/make_payment/{price_id?}', [App\Http\Controllers\ProductController:
 Route::any('/success_payment', [App\Http\Controllers\ProductController::class, 'success_payment'])->name('success_payment');
 Route::any('/failed_payment', [App\Http\Controllers\ProductController::class, 'failed_payment'])->name('failed_payment');
 
+
+
+Route::post('/stripe/combined_payment', [ProductController::class, 'createPayment']);
