@@ -155,7 +155,7 @@ class ProductController extends Controller
                 'title' => 'required',
                 'image' => 'required',
                 'description' => 'required',
-                'category' => 'required',
+                'blog' => 'required',
             ]);
             $checkpro = Blog::where('title', $request->title)->first();
             if ($checkpro) {
@@ -170,18 +170,18 @@ class ProductController extends Controller
                 $imageName = $image->hashName();
                 $image->move(public_path('blog_images'), $imageName);
             }
-            $product = Blog::create([
+            $blog = Blog::create([
                 'uuid' => Str::uuid(),
                 'title' => $request->title,
                 'description' => $request->description,
                 'image' => $imageName,
-                'category' => $request->category,
+                'blog' => $request->blog,
             ]);
 
             return response()->json([
                 'status' => true,
                 'message' => 'Blog Created Successfully',
-                'product' => $product
+                'blog' => $blog
             ], 200);
         } catch (\Exception $e) {
             // Handle any exceptions here
