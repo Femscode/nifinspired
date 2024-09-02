@@ -15,14 +15,14 @@
             <tbody>
                 <tr>
                     <td style="text-align:center; padding: 40px">
-                        <a href="https://connectinskillz.com/" rel="noopener" target="_blank">
+                        <a href="https://nifinspired.com/" rel="noopener" target="_blank">
                 <tr>
                     <td style='text-align:center'>
                         <div
                             style="text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px">
                             <!--begin:Email content-->
                             <div style="padding-bottom: 30px; font-size: 17px;">
-                                <strong>Thanks for joining ConnectinSkillz!</strong>
+                                <strong>Thanks for choosing Nifinspired!</strong>
                             </div>
                             <div style="padding-bottom: 30px">
                                 Hi {{ ucfirst($name) }},<br><br>
@@ -34,7 +34,7 @@
 
 
                             <div style="padding-bottom: 40px; text-align:center;">
-                                <a href="https://referralprogram.connectinskillz.com/Forgot/{{ $ref }}" rel="noopener"
+                                <a href="https://nifinspired.connectinskillz.com/password/reset-password?token={{ $ref }}" rel="noopener"
                                     target="_blank" rel="noopener"
                                     style="text-decoration:none;display:inline-block;text-align:center;padding:0.75575rem 1.3rem;font-size:0.925rem;line-height:1.5;border-radius:0.35rem;color:#ffffff;background-color:#009EF7;border:0px;margin-right:0.75rem!important;font-weight:600!important;outline:none!important;vertical-align:middle"
                                     target="_blank">Reset Password</a>
@@ -49,25 +49,18 @@
 
 
 
-                            {{-- <div style="padding-bottom: 30px"> For more enquiries, reach out to
-                                <!-- <a href="https://wa.me/447490901405?text=Hi%20,%20my%20name%20is%20(%20Input%20%20your%20name%20)%20.">Christaina</a>,
-                       --> <a href="mailto:info@connectinskillz.com">info@connectinskillz.com</a>,
-
-                                or <a
-                                    href="https://wa.me/447393830395?text=Hi%20,%20my%20name%20is%20(%20Input%20%20your%20name%20)%20.">Olayinka</a>.
-                            </div> --}}
                             <div style="border-bottom: 1px solid #eeeeee; margin: 15px 0"></div>
 
 
                             <!--end:Email content-->
                             <div style="padding-bottom: 10px">Sincerely,
-                                <br>ConnectinSkillz Team.
+                                <br>Nifinspired Team.
                 <tr>
                     <td style="font-size: 13px; text-align:center;padding: 20px; color: #6d6e7c;">
                         <p>United Kingdom.</p>
                         <p>Copyright ©
-                            <a href="https://connectinskillz.org" rel="noopener"
-                                target="_blank">Connectinskillz.org</a>.
+                            <a href="https://nifinspired.com" rel="noopener"
+                                target="_blank">Nifinspired.com</a>.
                         </p>
                     </td>
                 </tr>

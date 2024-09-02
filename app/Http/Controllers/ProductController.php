@@ -481,19 +481,15 @@ class ProductController extends Controller
     public function createPayment(Request $request)
     {
         try {
-
-            return env('STRIPE_SECRET');
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             header('Content-Type: application/json');
             $ng = $stripe->products->create(['name' => 'Quick Checkout']);
-
-
             $payment =  $stripe->prices->create([
                 'product' => $ng->id,
                 'unit_amount' => ceil($request->amount * 100),
                 'currency' => $request->currency,
             ]);
-          
+
             $checkout_session = \Stripe\Checkout\Session::create([
                 'line_items' => [[
                     # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
