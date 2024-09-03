@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -110,7 +111,7 @@ class ProductController extends Controller
                     'message' => 'Product Already Exist',
                 ], 200);
             }
-
+            return([$request->image, $request->file('image')]);
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = $image->hashName();
@@ -475,6 +476,39 @@ class ProductController extends Controller
     public function success_payment(Request $request)
     {
         file_put_contents(__DIR__ . '/stripelog.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $session = $stripe->checkout->sessions->retrieve($request->session_id);
+
+            // Retrieve metadata
+            $orderId = $session->metadata->order_id;
+            $userEmail = $session->metadata->user_email;
+
+            // Prepare data for the email
+            $data = [
+                'order_id' => $orderId,
+                'amount' => $session->amount_total / 100, // Assuming the amount is in cents
+                'currency' => $session->currency,
+            ];
+
+            // Send email to the user
+            Mail::send('mail.payment-success', $data, function ($message) use ($userEmail) {
+                $message->to($userEmail)->subject('Your Payment was Successful');
+                $message->from('support@nifinspired.com', 'Nifinspired');
+            });
+
+            // Send email to the admin
+            Mail::send('mail.payment-success-admin', $data, function ($message) {
+                $message->to(['fasanyafemi@gmail.com','support@nifinspired.com'])->subject('New Payment Received');
+                $message->from('support@nifinspired.com', 'Nifinspired');
+            });
+
+            // Return a successful response or redirect
+            return response()->json(['status' => 'success', 'order_id' => $orderId], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
         return response()->json("OK", 200);
     }
 
@@ -489,6 +523,8 @@ class ProductController extends Controller
                 'unit_amount' => ceil($request->amount * 100),
                 'currency' => $request->currency,
             ]);
+            $orderId = uniqid('order_');
+            $userEmail = $request->email;
 
             $checkout_session = \Stripe\Checkout\Session::create([
                 'line_items' => [[
@@ -499,6 +535,10 @@ class ProductController extends Controller
                 'mode' => 'payment',
                 'success_url' => 'https://nifinspired.connectinskillz.com/api/success_payment',
                 'cancel_url' => 'https://nifinspired.connectinskillz.com/api/failed_payment',
+                'metadata' => [
+                    'order_id' => $orderId,
+                    'user_email' => $userEmail,
+                ],
             ]);
 
             return $checkout_session;
