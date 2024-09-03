@@ -111,7 +111,7 @@ class ProductController extends Controller
                     'message' => 'Product Already Exist',
                 ], 200);
             }
-            return([$request->all(), $request->file('image')]);
+            dd($request->all(), $request->file('image'));
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = $image->hashName();
