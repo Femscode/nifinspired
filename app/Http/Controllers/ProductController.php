@@ -97,7 +97,7 @@ class ProductController extends Controller
                 'price' => 'required',
                 'description' => 'required',
                 'image' => 'required',
-                'category' => 'required',
+                'category' => 'required|array',
 
 
             ]);
@@ -288,7 +288,9 @@ class ProductController extends Controller
     {
 
 
-        $products = Product::where('category', $category)->latest()->get();
+        // $products = Product::where('category', $category)->latest()->get();
+        $products = Product::whereJsonContains('category', $category)->latest()->get();
+
         foreach ($products as $product) {
             $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $product->image;
         }
