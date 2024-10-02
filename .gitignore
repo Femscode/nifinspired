@@ -7,6 +7,8 @@
 .env
 .env2
 .env.backup
+composer.lock
+composer.json
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
