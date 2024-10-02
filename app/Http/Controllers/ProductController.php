@@ -562,12 +562,19 @@ class ProductController extends Controller
     {
         try {
           
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
                 'order_details' => 'required',
                 'total_price' => 'required',
                 'customer_email' => 'required'
+
             ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            }
            
             $order = Order::create([
                 'order_id' => $request->order_id,
@@ -621,16 +628,7 @@ class ProductController extends Controller
     public function fetch_all_orders(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'order_id' => 'required',
-
-            ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $validator->errors()
-                ], 400);
-            }
+           
             $order = Order::latest()->get();
             return response()->json([
                 'status' => true,
