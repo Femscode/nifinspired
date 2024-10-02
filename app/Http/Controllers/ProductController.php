@@ -568,7 +568,7 @@ class ProductController extends Controller
                 'total_price' => 'required',
                 'customer_email' => 'required'
             ]);
-            
+           
             $order = Order::create([
                 'order_id' => $request->order_id,
                 'order_details' => $request->order_details,
@@ -583,6 +583,7 @@ class ProductController extends Controller
 
             ], 200);
         } catch (\Exception $e) {
+           
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage()
