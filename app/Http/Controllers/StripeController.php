@@ -38,6 +38,7 @@ class StripeController extends Controller
             'user_email' => $email,
         ],
     ]);
+    return $paymentIntent->client_secret;
 
     return response()->json(['clientSecret' => $paymentIntent->client_secret]);
 }
