@@ -561,6 +561,7 @@ class ProductController extends Controller
     public function save_orders(Request $request)
     {
         try {
+            return true;
             $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
                 'order_details' => 'required',
