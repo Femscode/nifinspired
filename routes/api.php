@@ -67,6 +67,11 @@ Route::any('/delete-blog/{id}', [App\Http\Controllers\ProductController::class, 
 Route::post('/add-contactus', [App\Http\Controllers\ProductController::class, 'createContactUs']);
 Route::get('/fetch-contactus', [App\Http\Controllers\ProductController::class, 'fetchContactUs']);
 
+//Order Route
+Route::post('/save-order', [App\Http\Controllers\ProductController::class, 'save_orders']);
+Route::any('/fetch-single-order', [App\Http\Controllers\ProductController::class, 'fetch_single_order']);
+Route::get('/fetch-all-orders', [App\Http\Controllers\ProductController::class, 'fetch_all_orders']);
+
 Route::any('/create_product/{product?}', [App\Http\Controllers\ProductController::class, 'create_product'])->name('create_product');
 Route::any('/make_payment/{price_id?}', [App\Http\Controllers\ProductController::class, 'make_payment'])->name('make_payment');
 Route::any('/success_payment', [App\Http\Controllers\ProductController::class, 'success_payment'])->name('success_payment');

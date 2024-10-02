@@ -15,7 +15,7 @@ class StripeController extends Controller
         $this->stripeService = $stripeService;
     }
 
-    public function createPaymentIntent(Request $request)
+    public function oldcreatePaymentIntent(Request $request)
     {
         $amount = $request->input('amount') * 100;
         $currency =  $request->input('currency');
@@ -24,4 +24,21 @@ class StripeController extends Controller
         return response()->json($paymentIntent);
 
     }
+
+    public function createPaymentIntent(Request $request)
+{
+    $amount = $request->input('amount') * 100;
+    $currency =  $request->input('currency');
+    $email = $request->input('email');
+    $orderId = $request->input('order_id');
+
+    $paymentIntent = $this->stripeService->createPaymentIntent($amount, $currency, [
+        'metadata' => [
+            'order_id' => $orderId,
+            'user_email' => $email,
+        ],
+    ]);
+
+    return response()->json(['clientSecret' => $paymentIntent->client_secret]);
+}
 }

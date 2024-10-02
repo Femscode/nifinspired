@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Contact;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -291,6 +294,7 @@ class ProductController extends Controller
         // $products = Product::where('category', $category)->latest()->get();
         $products = Product::whereJsonContains('category', $category)->latest()->get();
 
+
         foreach ($products as $product) {
             $product->image = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $product->image;
         }
@@ -501,13 +505,14 @@ class ProductController extends Controller
 
             // Send email to the admin
             Mail::send('mail.payment-success-admin', $data, function ($message) {
-                $message->to(['fasanyafemi@gmail.com','support@nifinspired.com'])->subject('New Payment Received');
+                $message->to(['fasanyafemi@gmail.com', 'support@nifinspired.com'])->subject('New Payment Received');
                 $message->from('support@nifinspired.com', 'Nifinspired');
             });
 
             // Return a successful response or redirect
             return response()->json(['status' => 'success', 'order_id' => $orderId], 200);
         } catch (\Exception $e) {
+            file_put_contents(__DIR__ . '/stripelog_errors.txt', $e->getMessage() . "\n", FILE_APPEND);
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
         return response()->json("OK", 200);
@@ -544,9 +549,102 @@ class ProductController extends Controller
 
             return $checkout_session;
         } catch (\Throwable $th) {
+            file_put_contents(__DIR__ . '/stripelog_errors.txt', $e->getMessage() . "\n", FILE_APPEND);
+
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function save_orders(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+                'order_details' => 'required',
+                'total_price' => 'required',
+                'customer_email' => 'required'
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            }
+            $order = Order::create([
+                'order_id' => $request->order_id,
+                'order_details' => $request->order_details,
+                'total_price' => $request->total_price,
+                'customer_email' => $request->customer_email,
+                'status' => "pending"
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Order saved successfully!',
+                'data' => $order
+
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function fetch_single_order(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            }
+            $order = Order::where('order_id',$request->order_id)->first();
+            return response()->json([
+                'status' => true,
+                'message' => 'Order fetched successfully!',
+                'data' => $order
+
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function fetch_all_orders(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'order_id' => 'required',
+
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            }
+            $order = Order::latest()->get();
+            return response()->json([
+                'status' => true,
+                'message' => 'Order fetched successfully!',
+                'data' => $order
+
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
             ], 500);
         }
     }
