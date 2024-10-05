@@ -100,9 +100,7 @@ class ProductController extends Controller
                 'price' => 'required',
                 'description' => 'required',
                 'image' => 'required',
-                'category' => 'required|array',
-
-
+                'category' => 'required',
             ]);
 
 
