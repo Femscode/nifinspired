@@ -487,6 +487,10 @@ class ProductController extends Controller
             // Retrieve metadata
             $orderId = $session->metadata->order_id;
             $userEmail = $session->metadata->user_email;
+            //Update the status of the order
+            $order = Order::where('id',$orderId)->first();
+            $order->status = 'completed';
+            $order->save();
 
             // Prepare data for the email
             $data = [
@@ -498,7 +502,7 @@ class ProductController extends Controller
             // Send email to the user
             Mail::send('mail.payment-success', $data, function ($message) use ($userEmail) {
                 $message->to($userEmail)->subject('Your Payment was Successful');
-                $message->from('support@nifinspired.com', 'Nifinspired');
+                $message->from('rola.awosanmi@nifinspired.com ', 'Nifinspired');
             });
 
             // Send email to the admin
@@ -515,6 +519,33 @@ class ProductController extends Controller
         }
         return response()->json("OK", 200);
     }
+
+    public function failed_payemnt(Request $request)
+    {
+        file_put_contents(__DIR__ . '/stripelog-failed.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+
+        try {
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $session = $stripe->checkout->sessions->retrieve($request->session_id);
+
+            // Retrieve metadata
+            $orderId = $session->metadata->order_id;
+            $userEmail = $session->metadata->user_email;
+            //Update the status of the order
+            $order = Order::where('id',$orderId)->first();
+            $order->status = 'failed';
+            $order->save();
+
+            // Return a successful response or redirect
+            return response()->json(['status' => 'success', 'order_id' => $orderId], 200);
+        } catch (\Exception $e) {
+            file_put_contents(__DIR__ . '/stripelog_errors.txt', $e->getMessage() . "\n", FILE_APPEND);
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+        return response()->json("OK", 200);
+    }
+
+  
 
     public function createPayment(Request $request)
     {
@@ -559,7 +590,7 @@ class ProductController extends Controller
     public function save_orders(Request $request)
     {
         try {
-          
+
             $validator = Validator::make($request->all(), [
                 'order_id' => 'required',
                 'order_details' => 'required',
@@ -573,7 +604,7 @@ class ProductController extends Controller
                     'message' => $validator->errors()
                 ], 400);
             }
-           
+
             $order = Order::create([
                 'order_id' => $request->order_id,
                 'order_details' => $request->order_details,
@@ -588,7 +619,7 @@ class ProductController extends Controller
 
             ], 200);
         } catch (\Exception $e) {
-           
+
             return response()->json([
                 'status' => false,
                 'message' => $e->getMessage()
@@ -609,7 +640,7 @@ class ProductController extends Controller
                     'message' => $validator->errors()
                 ], 400);
             }
-            $order = Order::where('order_id',$request->order_id)->first();
+            $order = Order::where('order_id', $request->order_id)->first();
             return response()->json([
                 'status' => true,
                 'message' => 'Order fetched successfully!',
@@ -626,7 +657,7 @@ class ProductController extends Controller
     public function fetch_all_orders(Request $request)
     {
         try {
-           
+
             $order = Order::latest()->get();
             return response()->json([
                 'status' => true,
