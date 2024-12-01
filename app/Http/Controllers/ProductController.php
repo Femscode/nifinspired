@@ -171,16 +171,16 @@ class ProductController extends Controller
             }
 
 
-            $product->name = $request->name;
-            $product->price = $request->price;
-            $product->description = $request->description;
-            $product->category = $request->category;
-            $product->quantity = $request->quantity;
-            $product->usage = $request->usage;
-            $product->allergenes = $request->allergenes;
-            $product->functions = $request->functions;
-            $product->contents = $request->contents;
-            $product->image = $imageName;
+            $product->name = $request->name ?? $product->name;
+            $product->price = $request->price ?? $product->price;
+            $product->description = $request->description ?? $product->description;
+            $product->category = $request->category ?? $product->category;
+            $product->quantity = $request->quantity ?? $product->quantity;
+            $product->usage = $request->usage ?? $product->usage;
+            $product->allergenes = $request->allergenes ?? $product->allegenes;
+            $product->functions = $request->functions ?? $product->functions;
+            $product->contents = $request->contents ?? $product->contents;
+            $product->image = $imageName ?? $product->image;
             $product->save();
 
             $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $imageName;
