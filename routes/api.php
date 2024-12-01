@@ -51,6 +51,7 @@ Route::any('/delete-category/{id}', [App\Http\Controllers\ProductController::cla
 
 // Product Route
 Route::post('/create-product', [App\Http\Controllers\ProductController::class, 'createProduct']);
+Route::post('/edit-product', [App\Http\Controllers\ProductController::class, 'editProduct']);
 Route::get('/fetch-products', [App\Http\Controllers\ProductController::class, 'fetchProduct']);
 Route::get('/fetch-single-product/{product_id}', [App\Http\Controllers\ProductController::class, 'fetchSingleProduct']);
 Route::get('/fetch-product/{category_id}', [App\Http\Controllers\ProductController::class, 'fetchProductWithCategory']);
@@ -58,6 +59,7 @@ Route::any('/delete-products', [App\Http\Controllers\ProductController::class, '
 
 // Blog Route
 Route::post('/create-blog', [App\Http\Controllers\ProductController::class, 'createBlog']);
+Route::post('/edit-blog', [App\Http\Controllers\ProductController::class, 'editBlog']);
 Route::get('/fetch-blogs', [App\Http\Controllers\ProductController::class, 'fetchBlog']);
 Route::get('/fetch-single-blog/{blog_id}', [App\Http\Controllers\ProductController::class, 'fetchSingleBlog']);
 Route::get('/fetch-blog-by-category/{category}', [App\Http\Controllers\ProductController::class, 'fetchBlogWithCategory']);

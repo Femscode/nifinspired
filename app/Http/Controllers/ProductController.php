@@ -148,6 +148,55 @@ class ProductController extends Controller
             ], 500);
         }
     }
+    public function editProduct(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'id' => 'required',
+                // 'price' => 'required',
+                // 'description' => 'required',
+                // 'image' => 'required',
+                // 'category' => 'required',
+            ]);
+
+
+
+            $product = Product::find($request->id);
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = $image->hashName();
+                $image->move(public_path('product_images'), $imageName);
+            } else {
+                $imageName = null; // No image provided
+            }
+
+
+            $product->name = $request->name;
+            $product->price = $request->price;
+            $product->description = $request->description;
+            $product->category = $request->category;
+            $product->quantity = $request->quantity;
+            $product->usage = $request->usage;
+            $product->allergenes = $request->allergenes;
+            $product->functions = $request->functions;
+            $product->contents = $request->contents;
+            $product->image = $imageName;
+            $product->save();
+
+            $product['image'] = "https://connectinskillz.com/nifinspired_files/public/product_images/" . $imageName;
+            return response()->json([
+                'status' => true,
+                'message' => 'Product Updated Successfully',
+                'product' => $product
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function createBlog(Request $request)
     {
@@ -182,6 +231,40 @@ class ProductController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Blog Created Successfully',
+                'blog' => $blog
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions here
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function editBlog(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'id' => 'required',
+               
+            ]);
+           $blog = Blog::find($request->id);
+            if ($request->image !== null) {
+                $image = $request->file('image');
+                $imageName = $image->hashName();
+                $image->move(public_path('blog_images'), $imageName);
+            }
+
+            $blog->title = $request->title;
+            $blog->description = $request->description;
+            $blog->image = $imageName;
+            $blog->blog = $request->blog;
+            $blog->save();
+            
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Blog Updated Successfully',
                 'blog' => $blog
             ], 200);
         } catch (\Exception $e) {
