@@ -255,10 +255,10 @@ class ProductController extends Controller
                 $image->move(public_path('blog_images'), $imageName);
             }
 
-            $blog->title = $request->title;
-            $blog->description = $request->description;
-            $blog->image = $imageName;
-            $blog->blog = $request->blog;
+            $blog->title = $request->title ?? $blog->title;
+            $blog->description = $request->description ?? $blog->description;
+            $blog->image = $imageName ?? $blog->image;
+            $blog->blog = $request->blog ?? $blog->blog;
             $blog->save();
             
 
