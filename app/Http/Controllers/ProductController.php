@@ -246,21 +246,24 @@ class ProductController extends Controller
         try {
             $this->validate($request, [
                 'id' => 'required',
-               
+
             ]);
-           $blog = Blog::find($request->id);
-            if ($request->image !== null) {
+            $blog = Blog::find($request->id);
+            if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = $image->hashName();
                 $image->move(public_path('blog_images'), $imageName);
+            } else {
+                $imageName = null; // No image provided
             }
+           
 
             $blog->title = $request->title ?? $blog->title;
             $blog->description = $request->description ?? $blog->description;
             $blog->image = $imageName ?? $blog->image;
             $blog->blog = $request->blog ?? $blog->blog;
             $blog->save();
-            
+
 
             return response()->json([
                 'status' => true,
@@ -571,7 +574,7 @@ class ProductController extends Controller
             $orderId = $session->metadata->order_id;
             $userEmail = $session->metadata->user_email;
             //Update the status of the order
-            $order = Order::where('id',$orderId)->first();
+            $order = Order::where('id', $orderId)->first();
             $order->status = 'completed';
             $order->save();
 
@@ -615,7 +618,7 @@ class ProductController extends Controller
             $orderId = $session->metadata->order_id;
             $userEmail = $session->metadata->user_email;
             //Update the status of the order
-            $order = Order::where('id',$orderId)->first();
+            $order = Order::where('id', $orderId)->first();
             $order->status = 'failed';
             $order->save();
 
@@ -628,7 +631,7 @@ class ProductController extends Controller
         return response()->json("OK", 200);
     }
 
-  
+
 
     public function createPayment(Request $request)
     {
