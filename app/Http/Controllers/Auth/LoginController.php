@@ -29,31 +29,31 @@ class LoginController extends Controller
     {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails() || $request->password !== $request->confirmpassword){
+            if ($validateUser->fails() || $request->password !== $request->confirmpassword) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
                     'errors' => $validateUser->errors()
                 ], 401);
             }
-           
+
             $data = $request->all();
-            if($data['country'] == 'Nigeria') {
+            if ($data['country'] == 'Nigeria') {
                 $data['currency'] = '₦';
                 $data['amount'] = 5000;
-            } 
-            elseif($data['country'] == 'United Kingdom' || $data['country'] == 'United States') {
+            } elseif ($data['country'] == 'United Kingdom' || $data['country'] == 'United States') {
                 $data['currency'] = '$';
                 $data['amount'] = 3;
-            }
-            else {
+            } else {
                 $data['currency'] = '€';
                 $data['amount'] = 3;
             }
@@ -67,13 +67,13 @@ class LoginController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
-                'country' => $data['country'], 
-                'currency' => $data['currency'], 
-                'amount' => $data['amount'], 
+                'country' => $data['country'],
+                'currency' => $data['currency'],
+                'amount' => $data['amount'],
                 'referral_code' => $ref_link,
                 'password' => Hash::make($request->password)
             ]);
-            
+
             event(new Registered($user));
             // $user->sendEmailVerificationNotification();
             return response()->json([
@@ -82,7 +82,6 @@ class LoginController extends Controller
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
                 'user' => $user
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -95,13 +94,15 @@ class LoginController extends Controller
     public function loginUser(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), 
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -109,7 +110,15 @@ class LoginController extends Controller
                 ], 401);
             }
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+
+            if (!($request->email === 'fasanyafemi@gmail.com' || $request->email === 'support@making-organic-cool.co.uk')) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Permission Denied.',
+                ], 419);
+            }
+
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password does not match with our record.',
@@ -120,14 +129,13 @@ class LoginController extends Controller
             // $token = $user->createToken("API TOKEN")->plainTextToken;
             $token = $user->createToken('API Token', ['server:access', 'server:refresh'])->plainTextToken;
 
-            
+
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
                 'token' =>  $token,
                 'user' => $user,
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -135,7 +143,7 @@ class LoginController extends Controller
             ], 500);
         }
     }
-    
+
 
     use AuthenticatesUsers;
 
