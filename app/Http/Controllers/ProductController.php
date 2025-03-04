@@ -256,7 +256,7 @@ class ProductController extends Controller
             } else {
                 $imageName = null; // No image provided
             }
-           
+
 
             $blog->title = $request->title ?? $blog->title;
             $blog->description = $request->description ?? $blog->description;
@@ -586,16 +586,27 @@ class ProductController extends Controller
             ];
 
             // Send email to the user
-            Mail::send('mail.payment-success', $data, function ($message) use ($userEmail) {
-                $message->to($userEmail)->subject('Your Payment was Successful');
-                $message->from('rola.awosanmi@nifinspired.com ', 'Nifinspired');
-            });
+            // Try sending email to the user
+            try {
+                Mail::send('mail.payment-success', $data, function ($message) use ($userEmail) {
+                    $message->to($userEmail)->subject('Your Payment was Successful');
+                    $message->from('rola.awosanmi@nifinspired.com ', 'Nifinspired');
+                });
+            } catch (\Exception $e) {
+                // Log the error but don't stop execution
+                \Log::error('Failed to send customer email: ' . $e->getMessage());
+            }
 
-            // Send email to the admin
-            Mail::send('mail.payment-success-admin', $data, function ($message) {
-                $message->to(['fasanyafemi@gmail.com', 'support@nifinspired.com'])->subject('New Payment Received');
-                $message->from('support@nifinspired.com', 'Nifinspired');
-            });
+            // Try sending email to the admin
+            try {
+                Mail::send('mail.payment-success-admin', $data, function ($message) {
+                    $message->to(['fasanyafemi@gmail.com', 'support@making-organic-cool.co.uk'])->subject('New Payment Received');
+                    $message->from('support@nifinspired.com', 'Nifinspired');
+                });
+            } catch (\Exception $e) {
+                // Log the error but don't stop execution
+                \Log::error('Failed to send admin email: ' . $e->getMessage());
+            }
 
             // Return a successful response or redirect
             return response()->json(['status' => 'success', 'order_id' => $orderId], 200);
