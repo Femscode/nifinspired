@@ -608,6 +608,8 @@ class ProductController extends Controller
                 \Log::error('Failed to send admin email: ' . $e->getMessage());
             }
 
+           
+
             // Return a successful response or redirect
             return response()->json(['status' => 'success', 'order_id' => $orderId], 200);
         } catch (\Exception $e) {
@@ -689,7 +691,7 @@ class ProductController extends Controller
         try {
 
             $validator = Validator::make($request->all(), [
-                'order_id' => 'required',
+                // 'order_id' => 'required',
                 'order_details' => 'required',
                 'total_price' => 'required',
                 'customer_email' => 'required'
@@ -702,8 +704,9 @@ class ProductController extends Controller
                 ], 400);
             }
 
+            $order_id = uniqid('order_');
             $order = Order::create([
-                'order_id' => $request->order_id,
+                'order_id' => $order_id,
                 'order_details' => $request->order_details,
                 'total_price' => $request->total_price,
                 'customer_email' => $request->customer_email,
