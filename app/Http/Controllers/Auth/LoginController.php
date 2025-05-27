@@ -111,7 +111,7 @@ class LoginController extends Controller
             }
 
 
-            if (!($request->email == 'fasanyafemi@gmail.com' || $request->email == 'nififatogun@gmail.com')) {
+            if (!(strtolower($request->email) == 'fasanyafemi@gmail.com' || strtolower($request->email) == 'nififatogun@gmail.com')) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Permission Denied.',
