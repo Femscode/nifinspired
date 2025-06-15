@@ -608,7 +608,7 @@ class ProductController extends Controller
                 \Log::error('Failed to send admin email: ' . $e->getMessage());
             }
 
-           
+
 
             // Return a successful response or redirect
             return response()->json(['status' => 'success', 'order_id' => $orderId], 200);
@@ -754,7 +754,36 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
     public function fetch_all_orders(Request $request)
+    {
+        try {
+            $orders = Order::latest()->get();
+
+            // Transform the orders to decode the 'order_details' JSON string into an array
+            $orders = $orders->map(function ($order) {
+                if ($order->order_details) {
+                    $decodedDetails = json_decode($order->order_details, true);
+                    $order->order_details = json_last_error() === JSON_ERROR_NONE ? $decodedDetails : [];
+                } else {
+                    $order->order_details = [];
+                }
+                return $order;
+            });
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Orders fetched successfully!',
+                'data' => $orders
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function oldfetch_all_orders(Request $request)
     {
         try {
 
@@ -773,7 +802,8 @@ class ProductController extends Controller
         }
     }
 
-    public function updateOrderStatus(Request $request) {
+    public function updateOrderStatus(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'order_id' => 'required',
             'status' => 'required',
@@ -786,7 +816,7 @@ class ProductController extends Controller
             ], 400);
         }
         $order = Order::where('order_id', $request->order_id)->first();
-        if(!$order) {
+        if (!$order) {
             return response()->json([
                 'status' => false,
                 'message' => 'Order not found successfully!',
