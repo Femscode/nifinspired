@@ -772,4 +772,36 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function updateOrderStatus(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'order_id' => 'required',
+            'status' => 'required',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()
+            ], 400);
+        }
+        $order = Order::where('order_id', $request->order_id)->first();
+        if(!$order) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Order not found successfully!',
+                'data' => null
+
+            ], 404);
+        }
+
+        $order->status = $request->status;
+        $order->save();
+        return response()->json([
+            'status' => true,
+            'message' => 'Order status updated successfully!',
+            'data' => $order
+
+        ], 200);
+    }
 }

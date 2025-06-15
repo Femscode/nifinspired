@@ -78,5 +78,6 @@ Route::any('/create_product/{product?}', [App\Http\Controllers\ProductController
 Route::any('/make_payment/{price_id?}', [App\Http\Controllers\ProductController::class, 'make_payment'])->name('make_payment');
 Route::any('/success_payment', [App\Http\Controllers\ProductController::class, 'success_payment'])->name('success_payment');
 Route::any('/failed_payment', [App\Http\Controllers\ProductController::class, 'failed_payment'])->name('failed_payment');
+Route::any('/update-order-status', [App\Http\Controllers\ProductController::class, 'updateOrderStatus'])->name('failed_payment');
 
 Route::post('/stripe/combined_payment', [ProductController::class, 'createPayment']);
