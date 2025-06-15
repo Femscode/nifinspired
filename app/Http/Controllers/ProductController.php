@@ -755,7 +755,7 @@ class ProductController extends Controller
         }
     }
 
-    public function fetch_all_orders(Request $request)
+    public function newfetch_all_orders(Request $request)
     {
         try {
             $orders = Order::latest()->get();
@@ -783,7 +783,8 @@ class ProductController extends Controller
             ], 500);
         }
     }
-    public function oldfetch_all_orders(Request $request)
+
+    public function fetch_all_orders(Request $request)
     {
         try {
 
