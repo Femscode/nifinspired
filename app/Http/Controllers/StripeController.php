@@ -31,6 +31,8 @@ class StripeController extends Controller
         $email = $request->input('email');
         $orderId =  uniqid('order_');
         // $orderId = $request->input('order_id');
+        //hardcoded currency to gbp for now, can be changed to dynamic later
+        $currency = 'gbp';
 
         $paymentIntent = $this->stripeService->createPaymentIntent($amount, $currency, [
             'metadata' => [

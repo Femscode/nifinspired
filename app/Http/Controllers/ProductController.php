@@ -755,34 +755,7 @@ class ProductController extends Controller
         }
     }
 
-    public function newfetch_all_orders(Request $request)
-    {
-        try {
-            $orders = Order::latest()->get();
-
-            // Transform the orders to decode the 'order_details' JSON string into an array
-            $orders = $orders->map(function ($order) {
-                if ($order->order_details) {
-                    $decodedDetails = json_decode($order->order_details, true);
-                    $order->order_details = json_last_error() === JSON_ERROR_NONE ? $decodedDetails : [];
-                } else {
-                    $order->order_details = [];
-                }
-                return $order;
-            });
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Orders fetched successfully!',
-                'data' => $orders
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
+   
 
     public function fetch_all_orders(Request $request)
     {
