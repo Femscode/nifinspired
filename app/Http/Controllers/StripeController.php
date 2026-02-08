@@ -26,7 +26,7 @@ class StripeController extends Controller
 
     public function createPaymentIntent(Request $request)
     {
-        return 'tesging';
+        // return 'tesging';
         $amount = $request->input('amount') * 100;
         $currency =  $request->input('currency');
         $email = $request->input('email');
