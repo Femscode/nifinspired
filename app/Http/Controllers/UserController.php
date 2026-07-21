@@ -60,7 +60,6 @@ class UserController extends Controller
             $message->to('fasanyafemi@gmail.com', '')->subject('ConnectinSkillz Verification Email');
             $message->from('info@connectinskillz.com', 'ConnectinSkillz');
         });
-        dd('mail sent');
         // dd($location);
         Mail::to('fasanyafemi@gmail.com')->send(new ContactUsMail(
             $name,
@@ -211,11 +210,18 @@ class UserController extends Controller
 
         //here is where the mail comes in
         $data = array('name' => $name, 'ref' => $ref, 'email' => $email);
-
-        Mail::send('mail.forgot-password', $data, function ($message) use ($email) {
+        try {
+ Mail::send('mail.forgot-password', $data, function ($message) use ($email) {
             $message->to($email)->subject('Nifinspired Password Reset Email');
             $message->from('support@nifinspired.com', 'Nifinspired');
         });
+        } catch (\Exception $e) {
+            // Handle the exception if email sending fails
+            // You can log the error or return a response indicating the failure
+              \Log::error('Failed to send password reset email: ' . $e->getMessage());
+          
+        }
+       
         return response()->json([
             'status' => true,
             'message' => 'Password Reset Mail Sent Successfully!',

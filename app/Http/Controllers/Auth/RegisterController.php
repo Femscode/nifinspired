@@ -47,14 +47,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-     
+
 
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             //'password' => ['required', 'string', 'min:5', 'confirmed'],
-            'password' => ['required', 'string', 'min:5', 'confirmed','regex:/^[a-zA-Z0-9 ]+$/'],
+            'password' => ['required', 'string', 'min:5', 'confirmed', 'regex:/^[a-zA-Z0-9 ]+$/'],
         ]);
     }
 
@@ -66,26 +66,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
+
         $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345678";
         $random = Str::random(5);
         $ref_link = trim(substr($data['first_name'], 0, 5) . '-' . $random);
-       
-            $user =  User::create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'uid' => Str::uuid(),
-                'email' => $data['email'],
-                'referred_by' => $data['referred_by'],
-                'referral_id' => $ref_link,
-                'password' => Hash::make($data['password']),
-            ]);
-       
-        $subscribe = Subscribe::where('email',$data['email'])->first();
+
+        $user =  User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'uid' => Str::uuid(),
+            'email' => $data['email'],
+            'referred_by' => $data['referred_by'],
+            'referral_id' => $ref_link,
+            'password' => Hash::make($data['password']),
+        ]);
+
+        $subscribe = Subscribe::where('email', $data['email'])->first();
         $subscribe->status = 1;
         $subscribe->save();
-        if($data['referred_by'] !== null) {
-            $user = User::where('referral_id',$data['referred_by'])->first();
+        if ($data['referred_by'] !== null) {
+            $user = User::where('referral_id', $data['referred_by'])->first();
             $user->referral_count += 1;
             $user->save();
         }
@@ -101,33 +101,40 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             //'password' => ['required', 'string', 'min:5', 'confirmed'],
             'password' => ['required', 'string', 'min:4'],
-      
-        ]);
-        
-       
-            $user =  User::create([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'email' => $request->email,          
-               
-                'password' => Hash::make($request->password),
-            ]);
-       
-       
-           
 
-            $data = array('name' => $request->name, 'slug' => ucwords(str_replace(' ', '', $request->name)));
-            $email = $request->email;
+        ]);
+
+
+        $user =  User::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+
+            'password' => Hash::make($request->password),
+        ]);
+
+
+
+
+        $data = array('name' => $request->name, 'slug' => ucwords(str_replace(' ', '', $request->name)));
+        $email = $request->email;
+        try {
             Mail::send('mail.welcome', $data, function ($message) use ($email) {
                 $message->to($email, '')->subject('Welcome to Nifinspired');
                 $message->from('support@connectinskillz.com', 'Nifinspired');
             });
-            return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken,
-                'user' => $user
-            ], 200);
+        } catch (\Exception $e) {
+            // Handle the exception if email sending fails
+            // You can log the error or return a response indicating the failure
+              \Log::error('Failed to send customer email: ' . $e->getMessage());
+          
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User Created Successfully',
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'user' => $user
+        ], 200);
     }
-    
 }
