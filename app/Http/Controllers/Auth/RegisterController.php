@@ -126,7 +126,7 @@ class RegisterController extends Controller
         } catch (\Exception $e) {
             // Handle the exception if email sending fails
             // You can log the error or return a response indicating the failure
-              \Log::error('Failed to send customer email: ' . $e->getMessage());
+              \Log::error('Failed to send registration customer email: ' . $e->getMessage());
           
         }
 
